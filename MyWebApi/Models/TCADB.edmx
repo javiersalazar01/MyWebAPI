@@ -1,0 +1,313 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TCADataBaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ADDRESS">
+          <Key>
+            <PropertyRef Name="address_id" />
+          </Key>
+          <Property Name="address_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="student_id" Type="int" Nullable="false" />
+          <Property Name="address_line" Type="nvarchar" MaxLength="45" Nullable="false" />
+          <Property Name="city" Type="nvarchar" MaxLength="45" Nullable="false" />
+          <Property Name="zip_postcode" Type="nvarchar" MaxLength="45" Nullable="false" />
+          <Property Name="state" Type="nvarchar" MaxLength="45" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EMAIL">
+          <Key>
+            <PropertyRef Name="email_id" />
+          </Key>
+          <Property Name="email_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="student_id" Type="int" Nullable="false" />
+          <Property Name="email_type" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="updated_on" Type="datetime" />
+          <Property Name="created_on" Type="datetime" />
+        </EntityType>
+        <EntityType Name="PHONE">
+          <Key>
+            <PropertyRef Name="phone_id" />
+          </Key>
+          <Property Name="phone_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="student_id" Type="int" Nullable="false" />
+          <Property Name="phone" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="phone_type" Type="nvarchar" MaxLength="100" />
+          <Property Name="country_code" Type="nvarchar" MaxLength="5" />
+          <Property Name="area_code" Type="nvarchar" MaxLength="5" />
+          <Property Name="created_on" Type="datetime" />
+          <Property Name="updated_on" Type="datetime" />
+        </EntityType>
+        <EntityType Name="STUDENT">
+          <Key>
+            <PropertyRef Name="student_id" />
+          </Key>
+          <Property Name="student_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="last_name" Type="nvarchar" MaxLength="45" Nullable="false" />
+          <Property Name="middle_name" Type="nvarchar" MaxLength="45" Nullable="false" />
+          <Property Name="first_name" Type="nvarchar" MaxLength="45" Nullable="false" />
+          <Property Name="gender" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="create_on" Type="datetime" />
+          <Property Name="update_on" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_ADDRESS_STUDENT">
+          <End Role="STUDENT" Type="Self.STUDENT" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ADDRESS" Type="Self.ADDRESS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STUDENT">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="ADDRESS">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EMAIL_STUDEN">
+          <End Role="STUDENT" Type="Self.STUDENT" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EMAIL" Type="Self.EMAIL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STUDENT">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="EMAIL">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PHONE_STUDENT">
+          <End Role="STUDENT" Type="Self.STUDENT" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PHONE" Type="Self.PHONE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STUDENT">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="PHONE">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TCADataBaseModelStoreContainer">
+          <EntitySet Name="ADDRESS" EntityType="Self.ADDRESS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EMAIL" EntityType="Self.EMAIL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PHONE" EntityType="Self.PHONE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="STUDENT" EntityType="Self.STUDENT" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ADDRESS_STUDENT" Association="Self.FK_ADDRESS_STUDENT">
+            <End Role="STUDENT" EntitySet="STUDENT" />
+            <End Role="ADDRESS" EntitySet="ADDRESS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EMAIL_STUDEN" Association="Self.FK_EMAIL_STUDEN">
+            <End Role="STUDENT" EntitySet="STUDENT" />
+            <End Role="EMAIL" EntitySet="EMAIL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PHONE_STUDENT" Association="Self.FK_PHONE_STUDENT">
+            <End Role="STUDENT" EntitySet="STUDENT" />
+            <End Role="PHONE" EntitySet="PHONE" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TCADataBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ADDRESS">
+          <Key>
+            <PropertyRef Name="address_id" />
+          </Key>
+          <Property Name="address_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="student_id" Type="Int32" Nullable="false" />
+          <Property Name="address_line" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="city" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="zip_postcode" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="state" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="STUDENT" Relationship="Self.FK_ADDRESS_STUDENT" FromRole="ADDRESS" ToRole="STUDENT" />
+        </EntityType>
+        <EntityType Name="EMAIL">
+          <Key>
+            <PropertyRef Name="email_id" />
+          </Key>
+          <Property Name="email_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="email1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="student_id" Type="Int32" Nullable="false" />
+          <Property Name="email_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="updated_on" Type="DateTime" Precision="3" />
+          <Property Name="created_on" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="STUDENT" Relationship="Self.FK_EMAIL_STUDEN" FromRole="EMAIL" ToRole="STUDENT" />
+        </EntityType>
+        <EntityType Name="PHONE">
+          <Key>
+            <PropertyRef Name="phone_id" />
+          </Key>
+          <Property Name="phone_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="student_id" Type="Int32" Nullable="false" />
+          <Property Name="phone1" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phone_type" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="country_code" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="area_code" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="created_on" Type="DateTime" Precision="3" />
+          <Property Name="updated_on" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="STUDENT" Relationship="Self.FK_PHONE_STUDENT" FromRole="PHONE" ToRole="STUDENT" />
+        </EntityType>
+        <EntityType Name="STUDENT">
+          <Key>
+            <PropertyRef Name="student_id" />
+          </Key>
+          <Property Name="student_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="last_name" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="middle_name" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="first_name" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="gender" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="create_on" Type="DateTime" Precision="3" />
+          <Property Name="update_on" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ADDRESSes" Relationship="Self.FK_ADDRESS_STUDENT" FromRole="STUDENT" ToRole="ADDRESS" />
+          <NavigationProperty Name="EMAILs" Relationship="Self.FK_EMAIL_STUDEN" FromRole="STUDENT" ToRole="EMAIL" />
+          <NavigationProperty Name="PHONEs" Relationship="Self.FK_PHONE_STUDENT" FromRole="STUDENT" ToRole="PHONE" />
+        </EntityType>
+        <Association Name="FK_ADDRESS_STUDENT">
+          <End Role="STUDENT" Type="Self.STUDENT" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ADDRESS" Type="Self.ADDRESS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STUDENT">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="ADDRESS">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EMAIL_STUDEN">
+          <End Role="STUDENT" Type="Self.STUDENT" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EMAIL" Type="Self.EMAIL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STUDENT">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="EMAIL">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PHONE_STUDENT">
+          <End Role="STUDENT" Type="Self.STUDENT" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PHONE" Type="Self.PHONE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STUDENT">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="PHONE">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TCADataBaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ADDRESSes" EntityType="Self.ADDRESS" />
+          <EntitySet Name="EMAILs" EntityType="Self.EMAIL" />
+          <EntitySet Name="PHONEs" EntityType="Self.PHONE" />
+          <EntitySet Name="STUDENTs" EntityType="Self.STUDENT" />
+          <AssociationSet Name="FK_ADDRESS_STUDENT" Association="Self.FK_ADDRESS_STUDENT">
+            <End Role="STUDENT" EntitySet="STUDENTs" />
+            <End Role="ADDRESS" EntitySet="ADDRESSes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EMAIL_STUDEN" Association="Self.FK_EMAIL_STUDEN">
+            <End Role="STUDENT" EntitySet="STUDENTs" />
+            <End Role="EMAIL" EntitySet="EMAILs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PHONE_STUDENT" Association="Self.FK_PHONE_STUDENT">
+            <End Role="STUDENT" EntitySet="STUDENTs" />
+            <End Role="PHONE" EntitySet="PHONEs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TCADataBaseModelStoreContainer" CdmEntityContainer="TCADataBaseEntities">
+          <EntitySetMapping Name="ADDRESSes">
+            <EntityTypeMapping TypeName="TCADataBaseModel.ADDRESS">
+              <MappingFragment StoreEntitySet="ADDRESS">
+                <ScalarProperty Name="address_id" ColumnName="address_id" />
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
+                <ScalarProperty Name="address_line" ColumnName="address_line" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="zip_postcode" ColumnName="zip_postcode" />
+                <ScalarProperty Name="state" ColumnName="state" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EMAILs">
+            <EntityTypeMapping TypeName="TCADataBaseModel.EMAIL">
+              <MappingFragment StoreEntitySet="EMAIL">
+                <ScalarProperty Name="email_id" ColumnName="email_id" />
+                <ScalarProperty Name="email1" ColumnName="email" />
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
+                <ScalarProperty Name="email_type" ColumnName="email_type" />
+                <ScalarProperty Name="updated_on" ColumnName="updated_on" />
+                <ScalarProperty Name="created_on" ColumnName="created_on" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PHONEs">
+            <EntityTypeMapping TypeName="TCADataBaseModel.PHONE">
+              <MappingFragment StoreEntitySet="PHONE">
+                <ScalarProperty Name="phone_id" ColumnName="phone_id" />
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
+                <ScalarProperty Name="phone1" ColumnName="phone" />
+                <ScalarProperty Name="phone_type" ColumnName="phone_type" />
+                <ScalarProperty Name="country_code" ColumnName="country_code" />
+                <ScalarProperty Name="area_code" ColumnName="area_code" />
+                <ScalarProperty Name="created_on" ColumnName="created_on" />
+                <ScalarProperty Name="updated_on" ColumnName="updated_on" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="STUDENTs">
+            <EntityTypeMapping TypeName="TCADataBaseModel.STUDENT">
+              <MappingFragment StoreEntitySet="STUDENT">
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="create_on" ColumnName="create_on" />
+                <ScalarProperty Name="update_on" ColumnName="update_on" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

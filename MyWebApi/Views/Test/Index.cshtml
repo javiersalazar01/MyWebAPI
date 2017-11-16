@@ -1,0 +1,133 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+
+
+<div>
+    <ul id="studentsList">
+    </ul>
+</div>
+
+<hr />
+
+<div>
+    <label for="last_name">Last Name</label>
+    <input id="last_name" type="text" name="last_name" value="" />
+
+    <label for="middle_name">Middle Name</label>
+    <input id="middle_name" type="text" name="middle_name" value="" />
+
+    <label for="first_name">First Name</label>
+    <input id="first_name" type="text" name="first_name" value="" />
+
+    <label for="gender">gender</label>
+    <input id="gender" type="text" name="gender" value="" />
+
+    <input type="submit" value="submit" onclick="add()" />
+</div>
+<hr />
+
+<div>
+    <form action="/" method="get">
+        <label for="last_name">First Number</label>
+        <input id="First_Numbe" type="text" name="last_name" value="" />
+
+        <label for="middle_name">Middle Name</label>
+        <input id="middle_name" type="text" name="middle_name" value="" />
+
+        <label for="first_name">First Name</label>
+        <input id="first_name" type="text" name="first_name" value="" />
+
+    </form>
+
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+
+<script>
+
+    var baseurl = 'http://localhost:52635';
+
+    $(document).ready(function () {
+
+        $.ajax({
+            url: baseurl + '/api/Student',
+            type: 'get',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (key, value) {
+                    $('#studentsList').append(getDataText(value))
+                });
+
+            }
+        }).error(function (error) {
+            alert('Error: ' + error);
+        });
+    })
+
+    function getDataText(value) {
+
+        return "<li>first_name: " + value.first_name + ", middle_name: "
+            + value.middle_name + ", last_name: "
+            + value.last_name + ", gender: "
+            + value.gender + ", update_on: "
+            + value.update_on + ", create_on: "
+            + value.create_on + "</li>"
+    }
+
+
+
+    function add() {
+
+        
+
+        $(document).ready(function () {
+
+            var _lastName = $('#last_name').val();
+            var _middleName = $('#middle_name').val();
+            var _firstName = $('#first_name').val();
+            var _gender = $('#gender').val();
+
+            if (_lastName != "" && _middleName != "" && _firstName != "" && _gender != "") {
+
+                var student =
+                    {
+                        last_name: _lastName,
+                        middle_name: _middleName,
+                        first_name: _firstName,
+                        gender: _gender,
+
+                    };
+                var studentString = JSON.stringify(student);
+
+                $.ajax({
+                    url: baseurl + '/api/Student',
+                    cache: false,
+                    type: 'post',
+                    dataType: 'json',
+                    data: studentString,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        alert('register succesfully: ' + data);
+                        location.reload();
+                    }
+                }).error(function (error) {
+                    alert('Error: ' + error);
+                });
+
+            } else {
+                alert('Error: One or me fields are not filled');
+            }
+
+        })
+    }
+
+</script>
+
+
